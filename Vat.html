@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body {
+            background-color: #ffe6f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', cursive;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            color: #ff69b4;
+            margin-bottom: 30px;
+        }
+        .buttons {
+            position: relative;
+            height: 100px;
+            width: 100%;
+            max-width: 300px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+            margin: 5px 0;
+        }
+        #yesBtn {
+            background-color: #ff69b4;
+            color: white;
+        }
+        #noBtn {
+            background-color: #808080;
+            color: white;
+            position: absolute;
+        }
+        #message {
+            display: none;
+            font-size: 24px;
+            color: #ff69b4;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .hearts-background {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%23ff69b480' d='M10 3.8C8.7-.4 4.4.3 3.7 4.2c-.6 3.4 2.4 6.3 5.6 8.1 3.2-1.8 6.2-4.7 5.6-8.1-.7-3.9-5-4.6-6.3-.4z'/%3E%3C/svg%3E");
+            animation: float 20s linear infinite;
+        }
+        @keyframes float {
+            0% { background-position: 0 0; }
+            100% { background-position: 1000px 1000px; }
+        }
+        #custom-image {
+            width: 100%;
+            max-width: 200px;
+            margin: 20px auto;
+            display: none;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-background"></div>
+    <div class="container">
+        <h1>Will you be my Valentine? 💌</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="showMessage()">Yes! 💖</button>
+            <button id="noBtn" onmouseover="moveButton()">No 😢</button>
+        </div>
+        <div id="message"></div>
+        <img id="custom-image" src="attachment/81de17d7-f114-4668-aa5a-4a1ed9e173a4/image.png" alt="Our Moment">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        const messages = [
+            "Oops, wrong answer. Please try again! 😢",
+            "Please say yes? 🥺",
+            "How dare you? 😡",
+            "Don't leave me hanging! 😩",
+            "Are you sure? 😳"
+        ];
+
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const container = document.querySelector('.buttons');
+            const containerRect = container.getBoundingClientRect();
+
+            const maxX = containerRect.width - noBtn.offsetWidth;
+            const maxY = containerRect.height - noBtn.offsetHeight;
+
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+
+            // Show a random message
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById('message').innerText = randomMessage;
+            document.getElementById('message').style.display = 'block';
+        }
+
+        function showMessage() {
+            document.getElementById('message').innerText = 'You just made me the happiest person! 💕🎉😊';
+            document.getElementById('custom-image').style.display = 'block';
+
+            // Hide buttons only after clicking "Yes"
+            document.getElementById('yesBtn').style.display = 'none';
+            document.getElementById('noBtn').style.display = 'none';
+
+            // Confetti effect
+            var duration = 3000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff69b4', '#ff99cc', '#ffffff']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff69b4', '#ff99cc', '#ffffff']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+    </script>
+</body>
+</html>
